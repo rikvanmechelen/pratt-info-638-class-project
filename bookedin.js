@@ -1,4 +1,5 @@
 const express = require('express')
+const bodyParser = require('body-parser')
 
 const indexRouter = require('./routes/index');
 const authorsRouter = require('./routes/authors');
@@ -6,6 +7,9 @@ const booksRouter = require('./routes/books');
 
 const app = express()
 const port = 3000
+
+//extra platform setup
+app.use(bodyParser.urlencoded({ extended: true }))
 
 // view engine setup
 var handlebars = require('express-handlebars').create();
