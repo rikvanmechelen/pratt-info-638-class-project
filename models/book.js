@@ -1,5 +1,5 @@
 const books = [
-  {title: "Leviathan Wakes", publishingYear: 2011},
+  {title: "Leviathan Wakes", publishingYear: 2011, authorId: "0"},
   {title: "Caliban’s War", publishingYear: 2012}
 ];
 
