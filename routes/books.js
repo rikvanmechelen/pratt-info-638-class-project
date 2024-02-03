@@ -32,6 +32,12 @@ router.get('/show/:id', async (req, res, next) => {
 router.post('/upsert', async (req, res, next) => {
   console.log('body: ' + JSON.stringify(req.body))
   Book.upsert(req.body);
+  let createdOrupdated = req.body.id ? 'updated' : 'created';
+  req.session.flash = {
+    type: 'info',
+    intro: 'Success!',
+    message: `the book has been ${createdOrupdated}!`,
+  };
   res.redirect(303, '/books')
 });
 

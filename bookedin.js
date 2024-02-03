@@ -1,5 +1,9 @@
 const express = require('express')
 const bodyParser = require('body-parser')
+const cookieParser = require('cookie-parser')
+const expressSession = require('express-session')
+
+const { credentials } = require('./config')
 
 const indexRouter = require('./routes/index');
 const authorsRouter = require('./routes/authors');
@@ -10,6 +14,13 @@ const port = 3000
 
 //extra platform setup
 app.use(bodyParser.urlencoded({ extended: true }))
+app.use(cookieParser(credentials.cookieSecret));
+app.use(expressSession({
+  secret: credentials.cookieSecret,
+  resave: false,
+  saveUninitialized: false,
+  cookie: { maxAge: 30 * 24 * 60 * 60 * 1000 } // 30 days
+}));
 
 // view engine setup
 var handlebars = require('express-handlebars').create({
@@ -34,6 +45,15 @@ var handlebars = require('express-handlebars').create({
 app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
 
+// session configuration
+//make it possible to use flash messages, and pass them to the view
+app.use((req, res, next) => {
+  res.locals.flash = req.session.flash
+  delete req.session.flash
+  next()
+})
+
+// routes
 app.use('/', indexRouter);
 app.use('/authors', authorsRouter);
 app.use('/books', booksRouter);
