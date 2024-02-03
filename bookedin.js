@@ -8,6 +8,7 @@ const { credentials } = require('./config')
 const indexRouter = require('./routes/index');
 const authorsRouter = require('./routes/authors');
 const booksRouter = require('./routes/books');
+const usersRouter = require('./routes/users');
 
 const app = express()
 const port = 3000
@@ -52,11 +53,17 @@ app.use((req, res, next) => {
   delete req.session.flash
   next()
 })
+//make the current user available in views
+app.use((req, res, next) => {
+  res.locals.currentUser = req.session.currentUser
+  next()
+})
 
 // routes
 app.use('/', indexRouter);
 app.use('/authors', authorsRouter);
 app.use('/books', booksRouter);
+app.use('/users', usersRouter);
 
 // custom 404 page
 app.use((req, res) => {
