@@ -17,7 +17,7 @@
         <li><a href="/books">books</a></li>
         {{#if currentUser}}
           <li>
-            Welcome {{currentUser.name}}
+            <a href="/users/profile">Welcome {{currentUser.name}}</a>
           </li>
           <li>
             <form action="/users/logout" role="form" method="post">
