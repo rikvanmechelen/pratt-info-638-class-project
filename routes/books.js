@@ -3,6 +3,7 @@ const Book = require('../models/book');
 const Author = require('../models/author');
 const Genre = require('../models/genre');
 const BookUser = require('../models/book_user');
+const Comment = require('../models/comment');
 const router = express.Router();
 
 router.get('/', function(req, res, next) {
@@ -25,7 +26,8 @@ router.get('/show/:id', async (req, res, next) => {
     title: 'BookedIn || Books',
     book: Book.get(req.params.id),
     bookId: req.params.id,
-    statuses: BookUser.statuses
+    statuses: BookUser.statuses,
+    comments: Comment.AllForBook(req.params.id)
   }
   if (templateVars.book.authorIds) {
     templateVars['authors'] = templateVars.book.authorIds.map((authorId) => Author.get(authorId));
