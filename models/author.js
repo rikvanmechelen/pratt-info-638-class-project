@@ -1,27 +1,32 @@
-const authors = [
-  {firstName: "James", lastName: "S. A. Corey"},
-  {firstName: "Craig", lastName: "Alanson"},
-  {firstName: "Cixin", lastName: "Liu"},
-];
+const db = require('../database')
 
-exports.add = (author) => {
-  authors.push(author);
+exports.all = async () => {
+ const { rows } = await db.getPool().query("select * from authors order by id");
+ return db.camelize(rows);
 }
 
-exports.get = (idx) => {
-  return authors[idx];
+
+exports.add = async (author) => {
+  return await db.getPool()
+    .query("INSERT INTO authors(first_name, last_name) VALUES($1, $2) RETURNING *",
+      [author.firstName, author.lastName]);
 }
 
-exports.update = (author) => {
-  authors[author.id] = author;
+exports.get = async (id) => {
+  const { rows } = await db.getPool().query("select * from authors where id = $1", [id]);
+  return db.camelize(rows)[0];
 }
 
-exports.upsert = (author) => {
+exports.update = async (author) => {
+  return await db.getPool()
+    .query("update authors set first_name = $1, last_name = $2 where id = $3 RETURNING *",
+      [author.firstName, author.lastName, author.id]);
+}
+
+exports.upsert = async (author) => {
   if (author.id) {
-    exports.update(author);
+    return exports.update(author);
   } else {
-    exports.add(author);
+    return exports.add(author);
   }
 }
-
-exports.all = authors
