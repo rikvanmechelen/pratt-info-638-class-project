@@ -23,19 +23,20 @@ router.get('/edit', async (req, res, next) => {
 });
 
 router.get('/show/:id', async (req, res, next) => {
+  const book = await Book.get(req.params.id)
   let templateVars = {
     title: 'BookedIn || Books',
-    book: await Book.get(req.params.id),
+    book: book,
     bookId: req.params.id,
     statuses: BookUser.statuses,
-    comments: Comment.AllForBook(req.params.id)
+    comments: await Comment.allForBook(book)
   }
-  templateVars.book.authors = await Author.allForBook(templateVars.book);
-  if (templateVars.book.genreId) {
-    templateVars['genre'] = await Genre.get(templateVars.book.genreId);
+  book.authors = await Author.allForBook(book);
+  if (book.genreId) {
+    templateVars['genre'] = await Genre.get(book.genreId);
   }
   if (req.session.currentUser) {
-    templateVars['bookUser'] = await BookUser.get(templateVars.book, req.session.currentUser);
+    templateVars['bookUser'] = await BookUser.get(book, req.session.currentUser);
   }
   res.render('books/show', templateVars);
 });
