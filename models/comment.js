@@ -1,7 +1,7 @@
 const comments = [
-  {id: "0", bookId: "0", userEmail: "rvanmech@pratt.edu", text: "I would love to read this!!"},
-  {id: "1", bookId: "0", userEmail: "rvanmech@pratt.edu", text: "OMG is just so good, i hope it stays this way"},
-  {id: "2", bookId: "0", userEmail: "rvanmech@pratt.edu", text: "It's so sad that i finished it, what do you think?"},
+  {id: "0", bookId: 1, userEmail: "rvanmech@pratt.edu", text: "I would love to read this!!"},
+  {id: "1", bookId: 1, userEmail: "rvanmech@pratt.edu", text: "OMG is just so good, i hope it stays this way"},
+  {id: "2", bookId: 1, userEmail: "rvanmech@pratt.edu", text: "It's so sad that i finished it, what do you think?"},
 ];
 
 function getNextId() {

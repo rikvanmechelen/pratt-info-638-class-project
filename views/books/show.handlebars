@@ -1,7 +1,7 @@
 <h1>{{book.title}}</h1>
-{{#if authors}}
+{{#if book.authors}}
 <p>
-  Written by {{#each authors}}{{this.firstName}} {{this.lastName}}{{#unless @last}}, {{/unless}}{{/each}}
+  Written by {{#each book.authors}}{{this.firstName}} {{this.lastName}}{{#unless @last}}, {{/unless}}{{/each}}
 </p>
 {{/if}}
 <p>
@@ -9,14 +9,14 @@
 </p>
 {{#if genre}}
 <p>
-  genre: {{genre.genre}}
+  genre: {{genre.name}}
 </p>
 {{/if}}
 {{#if currentUser}}
 <div>
   <form action="/books_users/upsert" role="form" method="post">
     <input type="hidden" name="_csrf" value="{{_csrfToken}}">
-    <input type="hidden" name="bookId" value="{{bookId}}">
+    <input type="hidden" name="bookId" value="{{book.id}}">
     <input type="hidden" name="userEmail" value="{{currentUser.email}}">
     <label for="status">Status</label>
     <select name="status" id="status">
@@ -38,7 +38,7 @@
     {{#if currentUser}}
       <form action="/comments/upsert" role="form" method="post">
         <input type="hidden" name="_csrf" value="{{_csrfToken}}">
-        <input type="hidden" name="bookId" value="{{bookId}}">
+        <input type="hidden" name="bookId" value="{{book.id}}">
         <input type="hidden" name="userEmail" value="{{currentUser.email}}">
         <div>
           <textarea rows="5" id="comment" name="text">{{comment.text}}</textarea>
