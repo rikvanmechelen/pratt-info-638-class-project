@@ -35,7 +35,7 @@ router.get('/show/:id', async (req, res, next) => {
     templateVars['genre'] = await Genre.get(templateVars.book.genreId);
   }
   if (req.session.currentUser) {
-    templateVars['bookUser'] = BookUser.get(req.params.id, req.session.currentUser.email);
+    templateVars['bookUser'] = await BookUser.get(templateVars.book, req.session.currentUser);
   }
   res.render('books/show', templateVars);
 });

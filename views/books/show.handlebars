@@ -17,14 +17,14 @@
   <form action="/books_users/upsert" role="form" method="post">
     <input type="hidden" name="_csrf" value="{{_csrfToken}}">
     <input type="hidden" name="bookId" value="{{book.id}}">
-    <input type="hidden" name="userEmail" value="{{currentUser.email}}">
+    <input type="hidden" name="userId" value="{{currentUser.id}}">
     <label for="status">Status</label>
     <select name="status" id="status">
-      {{#unless (and bookUser bookUser.status)}}
+      {{#unless (and bookUser bookUser.readStatus)}}
         <option disabled selected value>-- select status --</option>
       {{/unless}}
       {{#each statuses}}
-        <option value="{{this}}" {{#if (and @root.bookUser (eq @root.bookUser.status this))}}selected{{/if}}>{{this}}</option>
+        <option value="{{this}}" {{#if (and @root.bookUser (eq @root.bookUser.readStatus this))}}selected{{/if}}>{{this}}</option>
       {{/each}}
     </select>
     <button type="submit">Submit</button>
